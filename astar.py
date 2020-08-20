@@ -87,7 +87,7 @@ class Spot:
 	def __lt__(self, other):
 		return False
 
-
+#Calculating heuristic function(Manhattan Distance in this Case)
 def h(p1, p2):
 	x1, y1 = p1
 	x2, y2 = p2
@@ -103,14 +103,21 @@ def reconstruct_path(came_from, current, draw):
 
 def algorithm(draw, grid, start, end):
 	count = 0
+    #For getting minimum element
 	open_set = PriorityQueue()
 	open_set.put((0, count, start))
 	came_from = {}
+
+    #Keep track of (actual)distance between start node and current node
 	g_score = {spot: float("inf") for row in grid for spot in row}
 	g_score[start] = 0
+    
+    #Keep track of (Approximate)distance between current node and end node
 	f_score = {spot: float("inf") for row in grid for spot in row}
 	f_score[start] = h(start.get_pos(), end.get_pos())
 
+   
+    #Using a Set to keep track of the elements present in the priority Queue
 	open_set_hash = {start}
 
 	while not open_set.empty():
@@ -118,7 +125,7 @@ def algorithm(draw, grid, start, end):
 			if event.type == pygame.QUIT:
 				pygame.quit()
 
-		current = open_set.get()[2]
+		current = open_set.get()[2]    #Getting the Node with minimum f score(actual distance)
 		open_set_hash.remove(current)
 
 		if current == end:
@@ -142,13 +149,14 @@ def algorithm(draw, grid, start, end):
 		draw()
 
 		if current != start:
-			current.make_closed()
+			current.make_closed()   
 
-	return False
+	return False           #Path not Found
 
 
 def make_grid(rows, width):
 	grid = []
+    #calculating the width of the single cube in our grid
 	gap = width // rows
 	for i in range(rows):
 		grid.append([])
