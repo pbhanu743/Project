@@ -1,2 +1,3 @@
 # Project
-A star Path Visualization
+Path Visualization using A* Algorithm
+
